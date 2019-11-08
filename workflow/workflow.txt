@@ -1,0 +1,34 @@
+Components:
+PASSWORD MANAGER (PM)
+BROKER (BR)
+WEB BROWSER (WB)
+
+states of PM:
+not plaged, locked (NL)
+plaged, locked (PL)
+plaged, unlocked (PU)
+
+IO of PW:
+display
+button
+
+information showed on display of PM reflecting state:
+NL - none
+PL - nonce for unlocking
+PU - public key fingerprint of PW or requested credentials identification + requester identification
+
+broker functionality:
+unlocks PM
+gives PM’s fingerprint on demand to WB
+redirects messages between WB and PM
+
+Connection PM to BR:
+After connecting PM to pc, display of PM shows nonce for unlocking. BR initiates communication with PM compounding password and nonce and estimates communication using symmetric cryptography. First message from BR to PM is hashed (password || nonce). After PM check correctness of BR message, first message from PM to BR is public key. Fingerprint of PM appears on display.
+
+BR retrieving information from PM:
+WB asks BR for available PM, BR responses with public key of PM. WB crypts message (credentials, WB public key) using PM’s public key and sends message to BR. BR redirects message to PM. PM shows information about request message - credentials, WB fingerprint. User can release password by pushing accept button. (If password is not found, PM changes state to PL.)
+WB can ask for permission to retrieve metadata (accounts for website). Message is forwarded by BR and user is informed by PM’s display. Acceptance of request is done by button.
+
+Restrictions for communication:
+BR can be connected only to one PM at the moment. BR can communicate only with one BR, other connections gets “busy” reply, so they can try new message later.
+
